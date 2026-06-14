@@ -1,0 +1,70 @@
+<div class="dash-greeting">
+  <h1>{{ greeting }}, Administrador</h1>
+  <p>Veja o resumo do dia.</p>
+</div>
+
+<!-- KPI Cards -->
+<div class="dash-kpis" *ngIf="!loading">
+  <a class="kpi-card" *ngFor="let kpi of kpis" [routerLink]="kpi.route">
+    <div class="kpi-accent" [style.background]="'var(' + kpi.accent + ')'"></div>
+    <div class="kpi-body">
+      <mat-icon class="kpi-icon" [style.color]="'var(' + kpi.accent + ')'">{{ kpi.icon }}</mat-icon>
+      <div>
+        <p class="kpi-value">{{ kpi.display }}</p>
+        <p class="kpi-label">{{ kpi.label }}</p>
+      </div>
+    </div>
+  </a>
+</div>
+
+<!-- Bottom row -->
+<div class="dash-row" *ngIf="!loading">
+  <!-- Status breakdown -->
+  <div class="dash-card">
+    <h3 class="card-title">Status das OS</h3>
+    <div class="status-bars">
+      <div class="status-bar-row" *ngFor="let s of statusCounts">
+        <span class="status-badge" [ngClass]="s.css">{{ s.label }}</span>
+        <div class="bar-track">
+          <div class="bar-fill" [ngClass]="s.barCss"
+               [style.width.%]="(s.count / maxStatus) * 100"></div>
+        </div>
+        <span class="bar-count">{{ s.count }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent orders -->
+  <div class="dash-card dash-card--wide">
+    <div class="card-title-row">
+      <h3 class="card-title">Ordens Recentes</h3>
+      <a routerLink="/ordens-servico" class="see-all">Ver todas</a>
+    </div>
+    <table class="recent-table">
+      <thead>
+        <tr>
+          <th>Nº OS</th>
+          <th>Veículo</th>
+          <th>Status</th>
+          <th>Abertura</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let os of recentOrders">
+          <td class="td-mono">{{ os.numero || ('#' + os.id) }}</td>
+          <td>{{ os.veiculo?.placa ?? '—' }}</td>
+          <td><app-status-badge [status]="os.status"></app-status-badge></td>
+          <td>{{ os.dataAbertura | date:'dd/MM/yy' }}</td>
+        </tr>
+        <tr *ngIf="recentOrders.length === 0">
+          <td colspan="4" class="no-orders">Nenhuma OS registrada.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Loading -->
+<div *ngIf="loading" class="dash-loading">
+  <mat-spinner diameter="48"></mat-spinner>
+</div>

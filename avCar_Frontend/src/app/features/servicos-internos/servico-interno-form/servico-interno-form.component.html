@@ -1,0 +1,36 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Editar Serviço' : 'Novo Serviço Interno' }}</h2>
+
+<mat-dialog-content [formGroup]="form">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Nome do Serviço</mat-label>
+    <input matInput formControlName="nomeServico" />
+    <mat-error *ngIf="form.get('nomeServico')?.hasError('required')">Campo obrigatório</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Descrição</mat-label>
+    <textarea matInput formControlName="descricao" rows="3"></textarea>
+    <mat-error *ngIf="form.get('descricao')?.hasError('required')">Campo obrigatório</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Preço Base (R$)</mat-label>
+    <input matInput formControlName="precoBase" type="number" />
+    <mat-error *ngIf="form.get('precoBase')?.hasError('required')">Campo obrigatório</mat-error>
+    <mat-error *ngIf="form.get('precoBase')?.hasError('min')">Valor deve ser positivo</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Tempo Estimado (minutos)</mat-label>
+    <input matInput formControlName="tempoEstimadoMin" type="number" />
+    <mat-error *ngIf="form.get('tempoEstimadoMin')?.hasError('required')">Campo obrigatório</mat-error>
+    <mat-error *ngIf="form.get('tempoEstimadoMin')?.hasError('min')">Mínimo 1 minuto</mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid || loading">
+    {{ loading ? 'Salvando...' : 'Salvar' }}
+  </button>
+</mat-dialog-actions>

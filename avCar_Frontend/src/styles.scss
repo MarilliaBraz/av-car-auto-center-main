@@ -1,0 +1,254 @@
+/* ─── Design Tokens ──────────────────────────────────── */
+:root {
+  --ink:        #16181D;
+  --ink-2:      #21252E;
+  --ink-3:      #2C313B;
+
+  --surface:    #F1F3F6;
+  --card:       #FFFFFF;
+  --line:       #E4E7EC;
+  --line-2:     #EEF0F3;
+
+  --text:       #1A1D23;
+  --muted:      #6B7280;
+  --muted-2:    #9AA1AC;
+
+  --amber:      #E8740C;
+  --amber-soft: #FEF1E3;
+  --amber-deep: #B85A06;
+
+  --blue:        #3B6EF0;
+  --blue-soft:   #EAF0FE;
+  --orange:      #D97706;
+  --orange-soft: #FCEFD8;
+  --violet:      #7C3AED;
+  --violet-soft: #F1EAFE;
+  --green:       #15803D;
+  --green-soft:  #E4F3E9;
+  --red:         #DC2626;
+  --red-soft:    #FCE9E9;
+
+  --r:         10px;
+  --shadow:    0 1px 2px rgba(16,24,40,.05), 0 1px 3px rgba(16,24,40,.06);
+  --shadow-lg: 0 8px 24px rgba(16,24,40,.10);
+
+  --sidebar-w: 236px;
+}
+
+/* ─── Base ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--surface);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Buttons ────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  background: var(--amber) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  font-size: 13.5px !important;
+  padding: 0 18px !important;
+  height: 38px !important;
+  box-shadow: none !important;
+  line-height: 38px !important;
+  transition: background .15s !important;
+
+  mat-icon { font-size: 18px; width: 18px; height: 18px; }
+
+  &:hover { background: var(--amber-deep) !important; }
+}
+
+.btn-ghost {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  background: var(--card) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  font-size: 13.5px !important;
+  padding: 0 16px !important;
+  height: 38px !important;
+  box-shadow: none !important;
+  line-height: 38px !important;
+  transition: border-color .15s, background .15s !important;
+
+  mat-icon { font-size: 18px; width: 18px; height: 18px; }
+
+  &:hover {
+    background: var(--surface) !important;
+    border-color: var(--muted-2) !important;
+  }
+}
+
+/* ─── Layout helpers ─────────────────────────────────── */
+.full-width { width: 100%; }
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.header-row h2 {
+  margin: 0;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ─── Search field ───────────────────────────────────── */
+.search-field {
+  max-width: 360px;
+  margin-bottom: 16px !important;
+}
+
+/* ─── Table ──────────────────────────────────────────── */
+.table-container {
+  overflow-x: auto;
+  background: var(--card);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+}
+
+.mat-mdc-row:hover {
+  background: var(--surface) !important;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-end;
+}
+
+.mat-column-actions {
+  width: 100px;
+  text-align: right;
+}
+
+/* ─── Empty state ────────────────────────────────────── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 56px 24px;
+  color: var(--muted-2);
+  gap: 10px;
+
+  mat-icon {
+    font-size: 52px;
+    width: 52px;
+    height: 52px;
+    opacity: .3;
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+  }
+}
+
+/* ─── Status badges ──────────────────────────────────── */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-orcamento  { background: var(--orange-soft); color: var(--orange); }
+.status-execucao   { background: var(--blue-soft);   color: var(--blue);   }
+.status-pagamento  { background: var(--violet-soft);  color: var(--violet); }
+.status-finalizado { background: var(--green-soft);  color: var(--green);  }
+
+/* ─── Dialogs ────────────────────────────────────────── */
+.mat-mdc-dialog-content {
+  min-width: 380px;
+  padding-top: 8px !important;
+}
+
+.confirm-dialog-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ─── Angular Material overrides ─────────────────────── */
+mat-form-field {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+  border-color: var(--line) !important;
+}
+
+.mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__leading,
+.mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__notch,
+.mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__trailing {
+  border-color: var(--amber) !important;
+}
+
+.mat-mdc-card {
+  border-radius: var(--r) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.mat-mdc-progress-bar .mdc-linear-progress__buffer-bar {
+  background: var(--line-2) !important;
+}
+
+.mat-mdc-progress-bar .mdc-linear-progress__bar-inner {
+  border-color: var(--amber) !important;
+}
+
+/* ─── Icon action buttons ────────────────────────────── */
+.icon-btn-edit .mat-icon  { color: var(--amber); }
+.icon-btn-delete .mat-icon { color: var(--red); }
+
+.icon-btn-edit:hover  { background: var(--amber-soft) !important; }
+.icon-btn-delete:hover { background: var(--red-soft) !important; }
+
+/* ─── Table header / cell refinements ────────────────── */
+.mat-mdc-header-cell {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: var(--muted) !important;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+}
+
+.mat-mdc-cell {
+  font-size: 13.5px;
+  color: var(--text);
+}
+
+/* ─── Paginator ──────────────────────────────────────── */
+.mat-mdc-paginator {
+  border-top: 1px solid var(--line);
+  background: var(--card) !important;
+}
+
+/* ─── Sidenav legacy ─────────────────────────────────── */
+.sidenav-container { height: 100%; }
+.main-toolbar { position: sticky; top: 0; z-index: 100; }

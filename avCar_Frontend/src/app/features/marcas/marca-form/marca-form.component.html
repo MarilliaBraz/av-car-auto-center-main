@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Editar Marca' : 'Nova Marca' }}</h2>
+
+<mat-dialog-content [formGroup]="form">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Nome da Marca</mat-label>
+    <input matInput formControlName="nomeMarca" placeholder="Ex: Toyota" />
+    <mat-error *ngIf="form.get('nomeMarca')?.hasError('required')">Campo obrigatório</mat-error>
+    <mat-error *ngIf="form.get('nomeMarca')?.hasError('minlength')">Mínimo 2 caracteres</mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid || loading">
+    {{ loading ? 'Salvando...' : 'Salvar' }}
+  </button>
+</mat-dialog-actions>

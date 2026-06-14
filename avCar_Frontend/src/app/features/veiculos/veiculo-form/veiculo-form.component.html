@@ -1,0 +1,41 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Editar Veículo' : 'Novo Veículo' }}</h2>
+
+<mat-dialog-content [formGroup]="form">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Placa</mat-label>
+    <input matInput formControlName="placa"
+      placeholder="ABC-1234 ou ABC1D23"
+      (input)="toUpperCase('placa', $event)"
+      style="text-transform: uppercase" />
+    <mat-hint>Placa antiga: ABC-1234 | Mercosul: ABC1D23</mat-hint>
+    <mat-error *ngIf="form.get('placa')?.hasError('required')">Campo obrigatório</mat-error>
+    <mat-error *ngIf="form.get('placa')?.hasError('pattern')">Placa inválida (ex: ABC-1234 ou ABC1D23)</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Ano de Fabricação</mat-label>
+    <input matInput formControlName="anoFabricacao" type="number" />
+    <mat-error *ngIf="form.get('anoFabricacao')?.hasError('required')">Campo obrigatório</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Cor</mat-label>
+    <input matInput formControlName="cor" />
+    <mat-error *ngIf="form.get('cor')?.hasError('required')">Campo obrigatório</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Modelo</mat-label>
+    <mat-select formControlName="idModelo">
+      <mat-option *ngFor="let m of modelos" [value]="m.id">{{ m.nomeModelo }}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('idModelo')?.hasError('required')">Campo obrigatório</mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid || loading">
+    {{ loading ? 'Salvando...' : 'Salvar' }}
+  </button>
+</mat-dialog-actions>

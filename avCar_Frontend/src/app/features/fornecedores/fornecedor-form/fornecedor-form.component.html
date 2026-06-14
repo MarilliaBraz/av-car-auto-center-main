@@ -1,0 +1,39 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Editar Fornecedor' : 'Novo Fornecedor' }}</h2>
+
+<mat-dialog-content [formGroup]="form">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Nome do Fornecedor</mat-label>
+    <input matInput formControlName="nomeFornecedor" />
+    <mat-error *ngIf="form.get('nomeFornecedor')?.hasError('required')">Campo obrigatório</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>CNPJ</mat-label>
+    <input matInput formControlName="cnpj" mask="00.000.000/0000-00" [dropSpecialCharacters]="false" placeholder="00.000.000/0000-00" />
+    <mat-error *ngIf="form.get('cnpj')?.hasError('pattern')">CNPJ inválido (formato: 00.000.000/0000-00)</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Telefone</mat-label>
+    <input matInput formControlName="telefone" mask="(00) 00000-0000" [dropSpecialCharacters]="false" placeholder="(00) 00000-0000" />
+    <mat-error *ngIf="form.get('telefone')?.hasError('required')">Campo obrigatório</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>E-mail</mat-label>
+    <input matInput formControlName="email" type="email" />
+    <mat-error *ngIf="form.get('email')?.hasError('email')">E-mail inválido</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Endereço</mat-label>
+    <input matInput formControlName="endereco" />
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid || loading">
+    {{ loading ? 'Salvando...' : 'Salvar' }}
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,70 @@
+<div class="header-row">
+  <h2>Veículos</h2>
+  <button mat-flat-button class="btn-primary" (click)="openForm()">
+    <mat-icon>add</mat-icon> Novo Veículo
+  </button>
+</div>
+
+<mat-form-field appearance="outline" class="search-field">
+  <mat-label>Buscar</mat-label>
+  <input matInput #searchInput (input)="applyFilter(searchInput.value)" placeholder="Digite para filtrar..." />
+  <mat-icon matSuffix>search</mat-icon>
+</mat-form-field>
+
+<div class="table-container">
+  <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+
+  <table mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+    </ng-container>
+    <ng-container matColumnDef="placa">
+      <th mat-header-cell *matHeaderCellDef>Placa</th>
+      <td mat-cell *matCellDef="let row" style="font-family:'Space Mono',monospace;font-size:12.5px;letter-spacing:.5px">{{ row.placa }}</td>
+    </ng-container>
+    <ng-container matColumnDef="anoFabricacao">
+      <th mat-header-cell *matHeaderCellDef>Ano</th>
+      <td mat-cell *matCellDef="let row">{{ row.anoFabricacao }}</td>
+    </ng-container>
+    <ng-container matColumnDef="cor">
+      <th mat-header-cell *matHeaderCellDef>Cor</th>
+      <td mat-cell *matCellDef="let row">{{ row.cor }}</td>
+    </ng-container>
+    <ng-container matColumnDef="idModelo">
+      <th mat-header-cell *matHeaderCellDef>Modelo</th>
+      <td mat-cell *matCellDef="let row">{{ row.nomeModelo || row.idModelo }}</td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Ações</th>
+      <td mat-cell *matCellDef="let row">
+        <div class="action-buttons">
+          <button mat-icon-button class="icon-btn-edit" (click)="openForm(row)" matTooltip="Editar">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button class="icon-btn-delete" (click)="delete(row)" matTooltip="Excluir">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td [colSpan]="displayedColumns.length">
+        <div class="empty-state" *ngIf="!loading">
+          <mat-icon>inbox</mat-icon>
+          <p>Nenhum veículo encontrado.</p>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <mat-paginator
+    [length]="totalElements"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[5, 10, 20]"
+    (page)="onPage($event)"
+    showFirstLastButtons
+  ></mat-paginator>
+</div>

@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Editar Modelo' : 'Novo Modelo' }}</h2>
+
+<mat-dialog-content [formGroup]="form">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Nome do Modelo</mat-label>
+    <input matInput formControlName="nomeModelo" placeholder="Ex: Corolla" />
+    <mat-error *ngIf="form.get('nomeModelo')?.hasError('required')">Campo obrigatório</mat-error>
+    <mat-error *ngIf="form.get('nomeModelo')?.hasError('minlength')">Mínimo 2 caracteres</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Marca</mat-label>
+    <mat-select formControlName="idMarca">
+      <mat-option *ngFor="let marca of marcas" [value]="marca.id">{{ marca.nomeMarca }}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('idMarca')?.hasError('required')">Campo obrigatório</mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid || loading">
+    {{ loading ? 'Salvando...' : 'Salvar' }}
+  </button>
+</mat-dialog-actions>

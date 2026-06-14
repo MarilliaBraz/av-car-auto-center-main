@@ -1,0 +1,50 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Editar Ordem de Serviço' : 'Nova Ordem de Serviço' }}</h2>
+
+<mat-dialog-content [formGroup]="form">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Data de Abertura</mat-label>
+    <input matInput formControlName="dataAbertura" mask="00/00/0000" [dropSpecialCharacters]="false" placeholder="DD/MM/AAAA" />
+    <mat-error *ngIf="form.get('dataAbertura')?.hasError('required')">Campo obrigatório</mat-error>
+    <mat-error *ngIf="form.get('dataAbertura')?.hasError('pattern')">Data inválida</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Data de Fechamento</mat-label>
+    <input matInput formControlName="dataFechamento" mask="00/00/0000" [dropSpecialCharacters]="false" placeholder="DD/MM/AAAA" />
+    <mat-error *ngIf="form.get('dataFechamento')?.hasError('pattern')">Data inválida</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Status</mat-label>
+    <mat-select formControlName="status">
+      <mat-option *ngFor="let s of statusOptions" [value]="s">{{ statusLabels[s] }}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('status')?.hasError('required')">Campo obrigatório</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Valor Total (R$)</mat-label>
+    <input matInput formControlName="valorTotal" type="number" />
+    <mat-error *ngIf="form.get('valorTotal')?.hasError('min')">Valor deve ser positivo</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Observações</mat-label>
+    <textarea matInput formControlName="observacoes" rows="3"></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Veículo</mat-label>
+    <mat-select formControlName="idVeiculo">
+      <mat-option *ngFor="let v of veiculos" [value]="v.id">{{ v.placa }} - {{ v.cor }}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('idVeiculo')?.hasError('required')">Campo obrigatório</mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid || loading">
+    {{ loading ? 'Salvando...' : 'Salvar' }}
+  </button>
+</mat-dialog-actions>

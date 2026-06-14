@@ -1,0 +1,55 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Editar Pessoa Física' : 'Nova Pessoa Física' }}</h2>
+
+<mat-dialog-content [formGroup]="form">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Nome</mat-label>
+    <input matInput formControlName="nome" />
+    <mat-error *ngIf="form.get('nome')?.hasError('required')">Campo obrigatório</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>CPF</mat-label>
+    <input matInput formControlName="cpf" mask="000.000.000-00" [dropSpecialCharacters]="false" placeholder="000.000.000-00" />
+    <mat-error *ngIf="form.get('cpf')?.hasError('required')">Campo obrigatório</mat-error>
+    <mat-error *ngIf="form.get('cpf')?.hasError('pattern')">CPF inválido</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Data de Nascimento</mat-label>
+    <input matInput formControlName="dataNascimento" mask="00/00/0000" [dropSpecialCharacters]="false" placeholder="DD/MM/AAAA" />
+    <mat-error *ngIf="form.get('dataNascimento')?.hasError('pattern')">Data inválida</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Data de Cadastro</mat-label>
+    <input matInput formControlName="dataCadastro" mask="00/00/0000" [dropSpecialCharacters]="false" placeholder="DD/MM/AAAA" />
+    <mat-error *ngIf="form.get('dataCadastro')?.hasError('required')">Campo obrigatório</mat-error>
+    <mat-error *ngIf="form.get('dataCadastro')?.hasError('pattern')">Data inválida</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Telefone</mat-label>
+    <input matInput formControlName="telefone" mask="(00) 00000-0000" [dropSpecialCharacters]="false" placeholder="(00) 00000-0000" />
+    <mat-error *ngIf="form.get('telefone')?.hasError('required')">Campo obrigatório</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>E-mail</mat-label>
+    <input matInput formControlName="email" type="email" />
+    <mat-error *ngIf="form.get('email')?.hasError('required')">Campo obrigatório</mat-error>
+    <mat-error *ngIf="form.get('email')?.hasError('email')">E-mail inválido</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Endereço</mat-label>
+    <input matInput formControlName="endereco" />
+    <mat-error *ngIf="form.get('endereco')?.hasError('required')">Campo obrigatório</mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid || loading">
+    {{ loading ? 'Salvando...' : 'Salvar' }}
+  </button>
+</mat-dialog-actions>

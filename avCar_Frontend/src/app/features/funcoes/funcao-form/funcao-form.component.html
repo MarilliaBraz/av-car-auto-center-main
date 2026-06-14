@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Editar Função' : 'Nova Função' }}</h2>
+
+<mat-dialog-content [formGroup]="form">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Nome da Função</mat-label>
+    <input matInput formControlName="nomeFuncao" />
+    <mat-error *ngIf="form.get('nomeFuncao')?.hasError('required')">Campo obrigatório</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Descrição</mat-label>
+    <textarea matInput formControlName="descricao" rows="3"></textarea>
+    <mat-error *ngIf="form.get('descricao')?.hasError('required')">Campo obrigatório</mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid || loading">
+    {{ loading ? 'Salvando...' : 'Salvar' }}
+  </button>
+</mat-dialog-actions>

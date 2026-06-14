@@ -1,0 +1,58 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Editar Colaborador' : 'Novo Colaborador' }}</h2>
+
+<mat-dialog-content [formGroup]="form">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Nome</mat-label>
+    <input matInput formControlName="nome" />
+    <mat-error *ngIf="form.get('nome')?.hasError('required')">Campo obrigatório</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>CPF</mat-label>
+    <input matInput formControlName="cpf" mask="000.000.000-00" [dropSpecialCharacters]="false" placeholder="000.000.000-00" />
+    <mat-error *ngIf="form.get('cpf')?.hasError('required')">Campo obrigatório</mat-error>
+    <mat-error *ngIf="form.get('cpf')?.hasError('pattern')">CPF inválido (formato: 000.000.000-00)</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Data de Admissão</mat-label>
+    <input matInput formControlName="dataAdmissao" mask="00/00/0000" [dropSpecialCharacters]="false" placeholder="DD/MM/AAAA" />
+    <mat-error *ngIf="form.get('dataAdmissao')?.hasError('required')">Campo obrigatório</mat-error>
+    <mat-error *ngIf="form.get('dataAdmissao')?.hasError('pattern')">Data inválida</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Salário</mat-label>
+    <input matInput formControlName="salario" type="number" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Telefone</mat-label>
+    <input matInput formControlName="telefone" mask="(00) 00000-0000" [dropSpecialCharacters]="false" placeholder="(00) 00000-0000" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>E-mail</mat-label>
+    <input matInput formControlName="email" type="email" />
+    <mat-error *ngIf="form.get('email')?.hasError('email')">E-mail inválido</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Endereço</mat-label>
+    <input matInput formControlName="endereco" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Funções</mat-label>
+    <mat-select formControlName="idFuncoes" multiple>
+      <mat-option *ngFor="let f of funcoes" [value]="f.id">{{ f.nomeFuncao }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid || loading">
+    {{ loading ? 'Salvando...' : 'Salvar' }}
+  </button>
+</mat-dialog-actions>
