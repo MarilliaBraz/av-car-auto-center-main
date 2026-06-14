@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+<<<<<<< HEAD
+      <module fileurl="file://$PROJECT_DIR$/.idea/carRepairBack-master.iml" filepath="$PROJECT_DIR$/.idea/carRepairBack-master.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/.idea/carRepair-master (2).iml" filepath="$PROJECT_DIR$/.idea/carRepair-master (2).iml" />
+>>>>>>> f671b2c4980f9a963474046062fc5446209c9cfc
+    </modules>
+  </component>
+</project>
