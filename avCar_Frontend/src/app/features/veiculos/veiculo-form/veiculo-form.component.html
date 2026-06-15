@@ -5,10 +5,13 @@
     <mat-label>Placa</mat-label>
     <input matInput formControlName="placa"
       placeholder="ABC-1234 ou ABC1D23"
-      (input)="toUpperCase('placa', $event)"
+      (input)="formatPlaca($event)"
       [readonly]="isEdit"
+      maxlength="8"
       style="text-transform: uppercase" />
-    <mat-hint>Placa antiga: ABC-1234 | Mercosul: ABC1D23</mat-hint>
+    <mat-spinner matSuffix *ngIf="buscandoPlaca" [diameter]="18" style="margin: 0 8px;"></mat-spinner>
+    <mat-hint *ngIf="!buscandoPlaca">Placa antiga: ABC-1234 | Mercosul: ABC1D23</mat-hint>
+    <mat-hint *ngIf="buscandoPlaca">Consultando dados do veículo...</mat-hint>
     <mat-error *ngIf="form.get('placa')?.hasError('required')">Campo obrigatório</mat-error>
     <mat-error *ngIf="form.get('placa')?.hasError('pattern')">Placa inválida (ex: ABC-1234 ou ABC1D23)</mat-error>
   </mat-form-field>

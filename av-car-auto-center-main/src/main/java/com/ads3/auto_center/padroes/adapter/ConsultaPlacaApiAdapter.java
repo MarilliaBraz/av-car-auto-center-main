@@ -30,6 +30,9 @@ public class ConsultaPlacaApiAdapter implements ConsultaVeiculoPort {
         String placaNormalizada = normalizar(placa);
         validarFormato(placaNormalizada);
 
+        // Padrão "token no header" → baseUrl/PLACA  +  Authorization: Bearer {token}
+        // Padrão "token na URL"    → baseUrl/PLACA/TOKEN  (comente a linha acima e descomente abaixo)
+        // String url = baseUrl + "/" + placaNormalizada + "/" + token;
         String url = baseUrl + "/" + placaNormalizada;
         HttpEntity<Void> requisicao = criarRequisicao();
 

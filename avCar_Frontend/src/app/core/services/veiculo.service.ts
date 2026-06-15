@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CrudService } from './crud.service';
+import { ConsultaPlacaResponse } from '../models/consulta-placa.model';
 import { Veiculo } from '../models/veiculo.model';
 import { ProprietarioHistorico } from '../models/proprietario-historico.model';
 import { environment } from '../../../environments/environment';
@@ -12,6 +13,14 @@ export class VeiculoService extends CrudService<Veiculo> {
 
   constructor(http: HttpClient) {
     super(http);
+  }
+
+  buscarPorPlaca(placa: string): Observable<Veiculo> {
+    return this.http.get<Veiculo>(`${this.apiUrl}/placa/${encodeURIComponent(placa)}`);
+  }
+
+  consultarPlacaExterna(placa: string): Observable<ConsultaPlacaResponse> {
+    return this.http.get<ConsultaPlacaResponse>(`${this.apiUrl}/consultar-placa/${encodeURIComponent(placa)}`);
   }
 
   transferirProprietario(idVeiculo: number, idNovoCliente: number): Observable<void> {

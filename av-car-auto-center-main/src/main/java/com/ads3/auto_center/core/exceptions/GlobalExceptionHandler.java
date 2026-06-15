@@ -1,5 +1,7 @@
 package com.ads3.auto_center.core.exceptions;
 
+import com.ads3.auto_center.padroes.adapter.ConsultaIndisponivelException;
+import com.ads3.auto_center.padroes.adapter.VeiculoNaoEncontradoException;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +25,17 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException ex) {
         return ResponseEntity.status(404).body(ErrorResponse.error("Registro relacionado não encontrado. Verifique os IDs informados."));
+    }
+
+    @ExceptionHandler(VeiculoNaoEncontradoException.class)
+    public ResponseEntity<ErrorResponse> handleVeiculoNaoEncontrado(VeiculoNaoEncontradoException ex) {
+        return ResponseEntity.status(404).body(ErrorResponse.error(ex.getMessage()));
+    }
+
+    @ExceptionHandler(ConsultaIndisponivelException.class)
+    public ResponseEntity<ErrorResponse> handleConsultaIndisponivel(ConsultaIndisponivelException ex) {
+        log.warn("Serviço de consulta de placa indisponível: {}", ex.getMessage());
+        return ResponseEntity.status(503).body(ErrorResponse.error(ex.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)
