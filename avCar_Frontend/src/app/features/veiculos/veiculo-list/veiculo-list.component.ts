@@ -7,13 +7,15 @@ import { Veiculo } from '../../../core/models/veiculo.model';
 import { VeiculoService } from '../../../core/services/veiculo.service';
 import { VeiculoFormComponent } from '../veiculo-form/veiculo-form.component';
 import { ConfirmDialogComponent, ConfirmDialogData } from '../../../shared/confirm-dialog/confirm-dialog.component';
+import { HistoricoProprietarioDialogComponent } from '../historico-proprietario-dialog/historico-proprietario-dialog.component';
+import { TransferirProprietarioDialogComponent } from '../transferir-proprietario-dialog/transferir-proprietario-dialog.component';
 
 @Component({
   selector: 'app-veiculo-list',
   templateUrl: './veiculo-list.component.html',
 })
 export class VeiculoListComponent implements OnInit {
-  displayedColumns = ['id', 'placa', 'anoFabricacao', 'cor', 'idModelo', 'actions'];
+  displayedColumns = ['id', 'placa', 'anoFabricacao', 'cor', 'nomeModelo', 'nomeCliente', 'actions'];
   dataSource = new MatTableDataSource<Veiculo>();
   totalElements = 0;
   pageSize = 10;
@@ -63,6 +65,22 @@ export class VeiculoListComponent implements OnInit {
       data: item ? { ...item } : null,
     });
     dialogRef.afterClosed().subscribe(result => {
+      if (result) this.load();
+    });
+  }
+
+  openHistorico(item: Veiculo): void {
+    this.dialog.open(HistoricoProprietarioDialogComponent, {
+      width: '700px',
+      data: item,
+    });
+  }
+
+  openTransferencia(item: Veiculo): void {
+    this.dialog.open(TransferirProprietarioDialogComponent, {
+      width: '500px',
+      data: item,
+    }).afterClosed().subscribe(result => {
       if (result) this.load();
     });
   }

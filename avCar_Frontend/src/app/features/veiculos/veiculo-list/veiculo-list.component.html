@@ -19,22 +19,37 @@
       <th mat-header-cell *matHeaderCellDef>ID</th>
       <td mat-cell *matCellDef="let row">{{ row.id }}</td>
     </ng-container>
+
     <ng-container matColumnDef="placa">
       <th mat-header-cell *matHeaderCellDef>Placa</th>
       <td mat-cell *matCellDef="let row" style="font-family:'Space Mono',monospace;font-size:12.5px;letter-spacing:.5px">{{ row.placa }}</td>
     </ng-container>
+
     <ng-container matColumnDef="anoFabricacao">
       <th mat-header-cell *matHeaderCellDef>Ano</th>
       <td mat-cell *matCellDef="let row">{{ row.anoFabricacao }}</td>
     </ng-container>
+
     <ng-container matColumnDef="cor">
       <th mat-header-cell *matHeaderCellDef>Cor</th>
       <td mat-cell *matCellDef="let row">{{ row.cor }}</td>
     </ng-container>
-    <ng-container matColumnDef="idModelo">
+
+    <ng-container matColumnDef="nomeModelo">
       <th mat-header-cell *matHeaderCellDef>Modelo</th>
       <td mat-cell *matCellDef="let row">{{ row.nomeModelo || row.idModelo }}</td>
     </ng-container>
+
+    <ng-container matColumnDef="nomeCliente">
+      <th mat-header-cell *matHeaderCellDef>Proprietário</th>
+      <td mat-cell *matCellDef="let row">
+        <span *ngIf="row.nomeCliente; else semProprietario">{{ row.nomeCliente }}</span>
+        <ng-template #semProprietario>
+          <span style="color: #999; font-style: italic;">Sem proprietário</span>
+        </ng-template>
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Ações</th>
       <td mat-cell *matCellDef="let row">
@@ -42,12 +57,19 @@
           <button mat-icon-button class="icon-btn-edit" (click)="openForm(row)" matTooltip="Editar">
             <mat-icon>edit</mat-icon>
           </button>
+          <button mat-icon-button color="primary" (click)="openTransferencia(row)" matTooltip="Transferir Proprietário">
+            <mat-icon>swap_horiz</mat-icon>
+          </button>
+          <button mat-icon-button (click)="openHistorico(row)" matTooltip="Histórico de Proprietários" style="color: #607d8b;">
+            <mat-icon>history</mat-icon>
+          </button>
           <button mat-icon-button class="icon-btn-delete" (click)="delete(row)" matTooltip="Excluir">
             <mat-icon>delete</mat-icon>
           </button>
         </div>
       </td>
     </ng-container>
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     <tr class="mat-row" *matNoDataRow>

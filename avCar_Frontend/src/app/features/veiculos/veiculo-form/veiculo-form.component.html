@@ -6,6 +6,7 @@
     <input matInput formControlName="placa"
       placeholder="ABC-1234 ou ABC1D23"
       (input)="toUpperCase('placa', $event)"
+      [readonly]="isEdit"
       style="text-transform: uppercase" />
     <mat-hint>Placa antiga: ABC-1234 | Mercosul: ABC1D23</mat-hint>
     <mat-error *ngIf="form.get('placa')?.hasError('required')">Campo obrigatório</mat-error>
@@ -31,6 +32,27 @@
     </mat-select>
     <mat-error *ngIf="form.get('idModelo')?.hasError('required')">Campo obrigatório</mat-error>
   </mat-form-field>
+
+  <ng-container *ngIf="!isEdit">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Proprietário (opcional)</mat-label>
+      <mat-select formControlName="idCliente">
+        <mat-option [value]="null">Sem proprietário</mat-option>
+        <mat-option *ngIf="loadingClientes" disabled>Carregando...</mat-option>
+        <mat-option *ngFor="let c of clientes" [value]="c.id">
+          {{ c.nome }} <span style="color: #888; font-size: 12px;">({{ c.tipo }})</span>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </ng-container>
+
+  <ng-container *ngIf="isEdit && data?.nomeCliente">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Proprietário atual</mat-label>
+      <input matInput [value]="data?.nomeCliente" readonly />
+      <mat-hint>Para alterar o proprietário, use "Transferir Propriedade" na listagem</mat-hint>
+    </mat-form-field>
+  </ng-container>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">

@@ -11,5 +11,8 @@ public class VeiculoDTO extends BaseDTO {
     private int anoFabricacao;
     private String cor;
     private Long idModelo;
+    private String nomeModelo;
     private Long idCliente;
+    private String nomeCliente;
+    private String tipoCliente;
 }

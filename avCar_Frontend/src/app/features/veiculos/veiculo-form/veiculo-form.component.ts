@@ -2,10 +2,21 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { forkJoin } from 'rxjs';
 import { Modelo } from '../../../core/models/modelo.model';
+import { PessoaFisica } from '../../../core/models/pessoa-fisica.model';
+import { PessoaJuridica } from '../../../core/models/pessoa-juridica.model';
 import { Veiculo } from '../../../core/models/veiculo.model';
 import { ModeloService } from '../../../core/services/modelo.service';
+import { PessoaFisicaService } from '../../../core/services/pessoa-fisica.service';
+import { PessoaJuridicaService } from '../../../core/services/pessoa-juridica.service';
 import { VeiculoService } from '../../../core/services/veiculo.service';
+
+export interface ClienteOpcaoForm {
+  id: number;
+  nome: string;
+  tipo: string;
+}
 
 @Component({
   selector: 'app-veiculo-form',
@@ -16,11 +27,15 @@ export class VeiculoFormComponent implements OnInit {
   isEdit = false;
   loading = false;
   modelos: Modelo[] = [];
+  clientes: ClienteOpcaoForm[] = [];
+  loadingClientes = false;
 
   constructor(
     private fb: FormBuilder,
     private service: VeiculoService,
     private modeloService: ModeloService,
+    private pessoaFisicaService: PessoaFisicaService,
+    private pessoaJuridicaService: PessoaJuridicaService,
     private snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<VeiculoFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Veiculo | null,
@@ -39,9 +54,42 @@ export class VeiculoFormComponent implements OnInit {
       anoFabricacao: [this.data?.anoFabricacao ?? null, [Validators.required, Validators.min(1900)]],
       cor: [this.data?.cor ?? '', Validators.required],
       idModelo: [this.data?.idModelo ?? null, Validators.required],
+      idCliente: [{ value: this.data?.idCliente ?? null, disabled: this.isEdit }],
     });
+
     this.modeloService.getAll(0, 200).subscribe(page => {
       this.modelos = page.content;
+    });
+
+    if (!this.isEdit) {
+      this.carregarClientes();
+    }
+  }
+
+  carregarClientes(): void {
+    this.loadingClientes = true;
+    forkJoin({
+      fisicas: this.pessoaFisicaService.getAll(0, 500),
+      juridicas: this.pessoaJuridicaService.getAll(0, 500),
+    }).subscribe({
+      next: ({ fisicas, juridicas }) => {
+        const fisicasOpcoes: ClienteOpcaoForm[] = fisicas.content.map((pf: PessoaFisica) => ({
+          id: pf.id!,
+          nome: pf.nome,
+          tipo: 'Pessoa Física',
+        }));
+        const juridicasOpcoes: ClienteOpcaoForm[] = juridicas.content.map((pj: PessoaJuridica) => ({
+          id: pj.id!,
+          nome: pj.razaoSocial,
+          tipo: 'Pessoa Jurídica',
+        }));
+        this.clientes = [...fisicasOpcoes, ...juridicasOpcoes].sort((a, b) => a.nome.localeCompare(b.nome));
+        this.loadingClientes = false;
+      },
+      error: () => {
+        this.snackBar.open('Erro ao carregar clientes', 'Fechar', { duration: 3000 });
+        this.loadingClientes = false;
+      },
     });
   }
 
@@ -55,7 +103,7 @@ export class VeiculoFormComponent implements OnInit {
   save(): void {
     if (this.form.invalid) return;
     this.loading = true;
-    const payload: Veiculo = this.form.value;
+    const payload: Veiculo = { ...this.form.getRawValue() };
 
     const obs = this.isEdit
       ? this.service.update(this.data!.id!, payload)

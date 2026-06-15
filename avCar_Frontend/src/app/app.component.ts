@@ -48,6 +48,13 @@ export class AppComponent implements OnInit {
         { label: 'Modelos', route: '/modelos', icon: 'directions_car' },
       ],
     },
+    {
+      label: 'RELATÓRIOS',
+      items: [
+        { label: 'Histórico de Proprietários', route: '/historico-proprietarios', icon: 'history' },
+        { label: 'Relatórios de Frota', route: '/relatorios', icon: 'bar_chart' },
+      ],
+    },
   ];
 
   constructor(private router: Router) {}

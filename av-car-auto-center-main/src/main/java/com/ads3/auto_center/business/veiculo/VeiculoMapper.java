@@ -2,6 +2,7 @@ package com.ads3.auto_center.business.veiculo;
 
 import com.ads3.auto_center.business.cliente.ClienteModel;
 import com.ads3.auto_center.business.modelo.ModeloModel;
+import com.ads3.auto_center.business.proprietarioHistorico.ProprietarioHistoricoMapper;
 import com.ads3.auto_center.core.helpers.IGenericMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -22,8 +23,15 @@ public class VeiculoMapper implements IGenericMapper<VeiculoModel, VeiculoDTO> {
         dto.setPlaca(entity.getPlaca());
         dto.setAnoFabricacao(entity.getAnoFabricacao());
         dto.setCor(entity.getCor());
-        if (entity.getModelo() != null) dto.setIdModelo(entity.getModelo().getId());
-        if (entity.getCliente() != null) dto.setIdCliente(entity.getCliente().getId());
+        if (entity.getModelo() != null) {
+            dto.setIdModelo(entity.getModelo().getId());
+            dto.setNomeModelo(entity.getModelo().getNomeModelo());
+        }
+        if (entity.getCliente() != null) {
+            dto.setIdCliente(entity.getCliente().getId());
+            dto.setNomeCliente(ProprietarioHistoricoMapper.resolverNomeCliente(entity.getCliente()));
+            dto.setTipoCliente(ProprietarioHistoricoMapper.resolverTipoCliente(entity.getCliente()));
+        }
         return dto;
     }
 

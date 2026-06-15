@@ -62,6 +62,16 @@ const routes: Routes = [
     loadChildren: () =>
       import('./features/ordens-servico/ordens-servico.module').then(m => m.OrdensServicoModule),
   },
+  {
+    path: 'historico-proprietarios',
+    loadChildren: () =>
+      import('./features/historico-proprietarios/historico-proprietarios.module').then(m => m.HistoricoProprietariosModule),
+  },
+  {
+    path: 'relatorios',
+    loadChildren: () =>
+      import('./features/relatorios/relatorios.module').then(m => m.RelatoriosModule),
+  },
   { path: '**', redirectTo: 'dashboard' },
 ];
 

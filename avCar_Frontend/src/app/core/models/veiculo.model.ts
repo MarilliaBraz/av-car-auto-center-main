@@ -6,5 +6,8 @@ export interface Veiculo {
   idModelo: number;
   nomeModelo?: string;
   nomeMarca?: string;
+  idCliente?: number;
+  nomeCliente?: string;
+  tipoCliente?: string;
   active: true;
 }
