@@ -23,7 +23,10 @@ public class ItemServicoInternoMapper implements IGenericMapper<ItemServicoInter
         dto.setValorUnitario(entity.getValorUnitario());
         dto.setDesconto(entity.getDesconto());
         if (entity.getOrdemDeServico() != null) dto.setIdOs(entity.getOrdemDeServico().getId());
-        if (entity.getServicoInterno() != null) dto.setIdSrvInterno(entity.getServicoInterno().getId());
+        if (entity.getServicoInterno() != null) {
+            dto.setIdSrvInterno(entity.getServicoInterno().getId());
+            dto.setNomeServico(entity.getServicoInterno().getNomeServico());
+        }
         return dto;
     }
 

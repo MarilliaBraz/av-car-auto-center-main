@@ -13,4 +13,5 @@ public class ItemServicoInternoDTO extends BaseDTO {
     private BigDecimal desconto;
     private Long idOs;
     private Long idSrvInterno;
+    private String nomeServico;
 }

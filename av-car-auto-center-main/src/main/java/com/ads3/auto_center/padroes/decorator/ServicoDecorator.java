@@ -21,3 +21,4 @@ public abstract class ServicoDecorator implements ServicoOrcavel {
         return decorado.getValor();
     }
 }
+

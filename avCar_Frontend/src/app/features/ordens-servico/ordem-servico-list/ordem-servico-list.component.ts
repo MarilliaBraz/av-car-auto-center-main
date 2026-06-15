@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { OrdemServico } from '../../../core/models/ordem-servico.model';
 import { OrdemServicoService } from '../../../core/services/ordem-servico.service';
 import { OrdemServicoFormComponent } from '../ordem-servico-form/ordem-servico-form.component';
+import { ServicosOsDialogComponent } from '../servicos-os-dialog/servicos-os-dialog.component';
 import { ConfirmDialogComponent, ConfirmDialogData } from '../../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
@@ -14,6 +15,13 @@ import { ConfirmDialogComponent, ConfirmDialogData } from '../../../shared/confi
 })
 export class OrdemServicoListComponent implements OnInit {
   displayedColumns = ['numero', 'dataAbertura', 'status', 'valorTotal', 'idVeiculo', 'actions'];
+
+  openServicos(item: OrdemServico): void {
+    this.dialog.open(ServicosOsDialogComponent, {
+      width: '780px',
+      data: item,
+    });
+  }
   dataSource = new MatTableDataSource<OrdemServico>();
   totalElements = 0;
   pageSize = 10;
